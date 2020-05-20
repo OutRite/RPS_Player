@@ -64,8 +64,8 @@ def sendMove(move_id, session_id):
 	except:
 		print(move_req.text) # strange error.
 	if move_req.text == '':
-		print('Unknown error sending move. You probably have been ratelimited. Wait.')
-		sys.exit()
+		print('Unknown error sending move. Ratelimited? Trying again...')
+		check_move(move_id, session_id) # still allows for the optimizer to re-run just in case
 	move_req = move_req_json
 	move_status = move_req['responseCode']
 	if move_status == 1:
@@ -84,19 +84,34 @@ def sendMove(move_id, session_id):
 		print('Received move!')
 		return move_req
 
-move_req = sendMove(move_id, session_id)
-#print(move_req)
-if move_req['responseCode'] == 8:
-	print("ooh cool you got a key")
-	print(move_req['magicKey'])
-elif move_req['responseCode'] == 9:
-	print('ya lost. play again?')
-elif move_req['responseCode'] == 10:
-	print('its a tie. run it again now')
-else:
-	print('i suck at programming')
-	print('file a bug report with the following json data')
-	print(move_req)
+def check_move(move_id, session_id):
+	move_req = sendMove(move_id, session_id)
+	if move_req['responseCode'] == 8:
+		print("ooh cool you got a key")
+		print(move_req['magicKey'])
+	elif move_req['responseCode'] == 9:
+		print('LOST')
+		print("Rerunning with optimized play...") # random numbers tend to repeat themselves.
+		if move_id == 0: # if we played rock
+			check_move(2, session_id) # we play scissors
+		elif move_id == 1: # if we played paper
+			check_move(0, session_id) # we play rock
+		elif move_id == 2: # if we played scissors
+			check_move(1, session_id) # we play paper
+	elif move_req['responseCode'] == 10:
+		print('TIE')
+		print("Rerunning with optimized play...") # same as above, but tuned for a tie scenario
+		if move_id == 0: # both played rock
+			check_move(1, session_id) # we play paper
+		elif move_id == 1: # both played paper
+			check_move(2, session_id) # we play scissors
+		elif move_id == 2: # both played scissors
+			check_move(0, session_id) # we play rock
+	else:
+		print('i suck at programming')
+		print('file a bug report with the following json data')
+		print(move_req)
+
+check_move(move_id, session_id)
 
 print('')
-print('kthxbai')

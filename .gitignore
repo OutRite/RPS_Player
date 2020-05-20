@@ -1,0 +1,5 @@
+# for personal automation
+log.txt
+*.sh
+*.log
+optimizerLogTests/
