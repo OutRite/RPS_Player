@@ -4,7 +4,7 @@ Optimizing the fun out of it since 2020
 Notes: 
 It seems that you can get rate-limited ocassionally
 (API sends blank response)
-All data was gathered from http://gangadiddle.com/RPS.js
+All data was gathered from http://gangadiddle.com/rps.js
 
 
 Made by OutRite
