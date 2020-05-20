@@ -1,0 +1,87 @@
+Unofficial gangadiddle.com Rock Paper Scissors API documentation
+
+1. Basics
+
+all data is sent and received through a JSON object, for example
+
+{'magicNo': 2036397594}
+
+this is only a slight inconvenience for us, since
+we're using python, not JS, though python
+has built-in support for JSON objects as it is, so it doesn't
+matter much.
+Most of the JSON strings included here actually have a more
+descriptive userMsg, but we really don't care about that except
+for debugging purposes.
+
+2. Happy Funtime Magic Numbers
+
+Happy Funtime Magic Numbers (referred to here as HFMNs)
+are IDs that are used to tell the server which snapchat
+video/image we want to download or get from the archive.
+Here's an example:
+
+2036397594
+
+We send this data through the magicNo parameter.
+
+3. HFMN check
+
+We can send the API a simple JSON string with the
+magicNo parameter and the HFMN to receive one of three
+things:
+
+1: {'responseCode': 3, 'rpsSession': '[this is a session id]'}
+This simply means that was valid, and we use rpsSession to send
+the API our moves. This ID can expire.
+
+2: {'responseCode': 5}
+This means that the HFMN we sent it doesn't actually exist.
+
+3: {'responseCode': 6}
+This means we didn't send it a HFMN at all.
+
+4. Moves
+
+The moves are structured as so:
+
+0 -- rock
+1 -- paper
+2 -- scissors
+
+This is also known as the 'move ID'.
+
+We send the server a JSON string formatted like this:
+
+{'playerMove': 1, 'rpsSessionId': '[this is the session id we got earlier]'}
+
+and we can receive one of 5 statuses:
+
+1: this means your session expired. took too long.
+
+7: You sent it too soon. Here to enforce the 30 second countdown.
+
+8: Win. See chapter 5
+
+9: Lose.
+
+10: Tie.
+
+5. Win & the key
+
+You win once you get status 8 from above.
+The JSON from before contains the following
+
+{'responseCode': 8, 'magicKey': '[this is the key]'}
+
+You submit your key on the snapchat archive page, having selected
+the same file as the one you submitted to the API to get the
+session ID.
+
+6. End
+
+For now, that's all the knowledge I have of the API, and all of it
+has been implemented on the Python program that should have been
+provided with this document.
+
+
