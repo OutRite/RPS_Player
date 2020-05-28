@@ -22,3 +22,8 @@ Since RNG generally starts to repeat itself (run a couple
 iterations of a random number 0-2 in your favorite language)
 we can "exploit" this to increase our accuracy with only
 a couple extra lines of code (the main feature of V2!)
+
+oh yeah btw we were mentioned by mr. technician himself
+
+https://twitter.com/gangadiddle/status/1263075736384143360
+https://twitter.com/gangadiddle/status/1265847191920394245
