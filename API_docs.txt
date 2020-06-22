@@ -72,11 +72,9 @@ and we can receive one of 5 statuses:
 You win once you get status 8 from above.
 The JSON from before contains the following
 
-{'responseCode': 8, 'magicKey': '[this is the key]'}
+{'responseCode': 8, 'magicLink': '[this is an HTML link to the unlock page]'}
 
-You submit your key on the snapchat archive page, having selected
-the same file as the one you submitted to the API to get the
-session ID.
+You visit that page and you will unlock the file.
 
 6. End
 
