@@ -2,6 +2,7 @@ import requests
 import sys
 import random
 import time
+from html.parser import HTMLParser
 
 print("TT RPS Player")
 print("Optimizing the fun out of RPS since 2020")
@@ -17,6 +18,11 @@ scissors = 2
 moveset = ['rock', 'paper', 'scissors']
 
 api_url = "http://gangadiddle.com/rpsapi.php"; # current url of the api
+
+class gangadiddleHTMLParser(HTMLParser): # RPS API v2.0 patch
+	def handle_starttag(self,tag,attrs):
+		if tag == 'a': # just in case
+			print('https://gangadiddle.com/{}'.format(attrs[0][1]))
 
 if len(sys.argv) == 1:
 	print("Enter HFMN: ")
@@ -88,9 +94,11 @@ def check_move(move_id, session_id):
 	move_req = sendMove(move_id, session_id)
 	if move_req['responseCode'] == 8:
 		print("ooh cool you got a key")
-		print(move_req['magicKey'])
+		gparser = gangadiddleHTMLParser()
+		gparser.feed(move_req['magicLink'])
 	elif move_req['responseCode'] == 9:
 		print('LOST')
+		sys.exit() # api update breaks this. rip.
 		print("Rerunning with optimized play...") # random numbers tend to repeat themselves.
 		if move_id == 0: # if we played rock
 			check_move(2, session_id) # we play scissors
