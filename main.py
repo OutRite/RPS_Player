@@ -22,7 +22,10 @@ api_url = "http://gangadiddle.com/rpsapi.php"; # current url of the api
 class gangadiddleHTMLParser(HTMLParser): # RPS API v2.0 patch
 	def handle_starttag(self,tag,attrs):
 		if tag == 'a': # just in case
-			return 'https://gangadiddle.com/{}'.format(attrs[0][1])
+			visitLink('https://gangadiddle.com/{}'.format(attrs[0][1]))
+
+def visitLink(url):
+	requests.get(url)
 
 if len(sys.argv) == 1:
 	print("Enter HFMN: ")
@@ -95,9 +98,8 @@ def check_move(move_id, session_id):
 	if move_req['responseCode'] == 8:
 		print("ooh cool you got a key")
 		gparser = gangadiddleHTMLParser()
-		magicLink_url = gparser.feed(move_req['magicLink'])
-		requests.get(magicLink_url) # notice how we never do anything with it? lol
-		print('Unlocked automatically.')
+		gparser.feed(move_req['magicLink'])
+		print('Unlocked.')
 	elif move_req['responseCode'] == 9:
 		print('LOST')
 		sys.exit() # api update breaks this. rip.
