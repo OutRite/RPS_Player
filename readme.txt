@@ -15,9 +15,6 @@ Read API_docs.txt
 if you want to contribute, go to the JS file linked above
 and do some analysis or whatever and fix API_docs.txt
 
-also, due to how the links are now structured, we can easily automate
-clicking the link and automatically unlocking the file.
-
 Fun fact:
 
 Since RNG generally starts to repeat itself (run a couple
